@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "473786568579",
+    "project_id": "servu-7d51e",
+    "storage_bucket": "servu-7d51e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473786568579:android:5bfeb59a4650e567d930b6",
+        "android_client_info": {
+          "package_name": "com.app.servu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsMaIud8JxX_0mDEk15gl0tMHqlkJpmp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
