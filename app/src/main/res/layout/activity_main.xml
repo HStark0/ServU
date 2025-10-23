@@ -1,19 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F5F5">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/logo_servu"
+            android:contentDescription="Logo da ServU"
+            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintBottom_toTopOf="@+id/loginButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="Já tenho uma conta"
+            android:textColor="@android:color/white"
+            app:backgroundTint="#1ABC9C"
+            app:layout_constraintBottom_toTopOf="@+id/createAccountButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/createAccountButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Criar nova conta"
+            android:textColor="#1ABC9C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7"
+            app:strokeColor="#1ABC9C" />
+
+        <TextView
+            android:id="@+id/accessWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Acessar com"
+            android:textColor="#757575"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createAccountButton" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:background="#E0E0E0"
+            app:layout_constraintBottom_toBottomOf="@id/accessWith"
+            app:layout_constraintEnd_toStartOf="@id/accessWith"
+            app:layout_constraintStart_toStartOf="@id/createAccountButton"
+            app:layout_constraintTop_toTopOf="@id/accessWith" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:background="#E0E0E0"
+            app:layout_constraintBottom_toBottomOf="@id/accessWith"
+            app:layout_constraintEnd_toEndOf="@id/createAccountButton"
+            app:layout_constraintStart_toEndOf="@id/accessWith"
+            app:layout_constraintTop_toTopOf="@id/accessWith" />
+
+        <LinearLayout
+            android:id="@+id/socialLoginLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/createAccountButton"
+            app:layout_constraintStart_toStartOf="@id/createAccountButton"
+            app:layout_constraintTop_toBottomOf="@id/accessWith">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/googleLoginButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Google"
+                android:textAllCaps="false"
+                android:textColor="#757575"
+                app:backgroundTint="@android:color/white"
+                app:icon="@drawable/ic_google"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:strokeColor="#E0E0E0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/facebookLoginButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Facebook"
+                android:textAllCaps="false"
+                android:textColor="#757575"
+                app:backgroundTint="@android:color/white"
+                app:icon="@drawable/ic_facebook"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:strokeColor="#E0E0E0" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/continueAsProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Continuar como Prestador"
+            android:textColor="#1ABC9C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/bottom_sheet_login" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

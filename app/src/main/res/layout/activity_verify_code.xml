@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF8F5"
+    tools:context=".VerifyCodeActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Digite o código de 6 dígitos que enviamos por WhatsApp para (00) 00000-0000"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/codeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintEnd_toEndOf="@id/title">
+
+        <EditText
+            android:id="@+id/code1"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/code2"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/code3"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/code4"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/code5"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+        <EditText
+            android:id="@+id/code6"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/didNotReceiveCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Não recebi o código"
+        android:textColor="#FF0000"
+        app:layout_constraintTop_toBottomOf="@id/codeLayout"
+        app:layout_constraintStart_toStartOf="@id/codeLayout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueButton"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        app:backgroundTint="#1ABC9C"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLogo"
+        app:layout_constraintStart_toStartOf="@id/codeLayout"
+        app:layout_constraintEnd_toEndOf="@id/codeLayout"
+        android:layout_marginBottom="16dp"/>
+
+    <ImageView
+        android:id="@+id/bottomLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_servu_small"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

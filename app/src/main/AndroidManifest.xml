@@ -20,6 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".VerifyCodeActivity" />
+        <activity android:name=".CreateAccountEmailActivity" />
+        <activity android:name=".PersonalDataActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ChatListActivity" />
+        <activity android:name=".ConversationActivity" />
     </application>
 
 </manifest>
