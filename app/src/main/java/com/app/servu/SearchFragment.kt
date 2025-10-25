@@ -1,22 +1,83 @@
 package com.app.servu
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 
 class SearchFragment : Fragment() {
+
+    private lateinit var categoriesRecyclerView: RecyclerView
+    private lateinit var searchEditText: TextInputEditText
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+        categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view)
+        searchEditText = view.findViewById(R.id.search_edit_text)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO: Add logic to populate the categories RecyclerView
+
+        setupCategoryList()
+
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().equals("eletricista", ignoreCase = true)) {
+                    showSearchResults()
+                } else {
+                    setupCategoryList()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun setupCategoryList() {
+        categoriesRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        val categories = listOf(
+            Category("Designer Gráfico", R.drawable.ic_designer_grafico),
+            Category("Técnico em Ar Condicionado", R.drawable.ic_tecnico_ar_condicionado),
+            Category("Chaveiro", R.drawable.ic_chaveiro),
+            Category("Cuidador de Idosos", R.drawable.ic_cuidador_de_idosos),
+            Category("Diarista", R.drawable.ic_diarista),
+            Category("Encanador", R.drawable.ic_encanador),
+            Category("Limpeza de Piscinas", R.drawable.ic_limpeza_de_piscinas),
+            Category("Costureira", R.drawable.ic_costureira),
+            Category("Eletricista", R.drawable.ic_eletricista),
+            Category("Jardineiro", R.drawable.ic_jardineiro),
+            Category("Bico para Reformas", R.drawable.ic_bico_para_reformas),
+            Category("Montador de Móveis", R.drawable.ic_montador_de_moveis)
+        )
+        categoriesRecyclerView.adapter = CategoryAdapter(categories)
+    }
+
+    private fun showSearchResults() {
+        categoriesRecyclerView.layoutManager = LinearLayoutManager(context)
+        val searchResults = listOf(
+            SearchResult("Antônio Souza - Eletricista", 5.0f, "Especialista em instalações", 41, R.drawable.ic_profile_placeholder),
+            SearchResult("Matheus Silva - Eletricista", 4.8f, "Especialista em instalações", 35, R.drawable.ic_profile_placeholder),
+            SearchResult("José Silva - Eletricista", 3.1f, "Especialista em instalações", 28, R.drawable.ic_profile_placeholder)
+        )
+        categoriesRecyclerView.adapter = SearchResultAdapter(searchResults) {
+            val intent = Intent(context, ProviderProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -102,12 +102,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/item_category" />
-                    <include layout="@layout/item_category" />
-                    <include layout="@layout/item_category" />
-                    <include layout="@layout/item_category" />
-                    <include layout="@layout/item_category" />
-                    <include layout="@layout/item_category" />
+                    <include layout="@layout/item_category_transport" />
+                    <include layout="@layout/item_category_beauty" />
+                    <include layout="@layout/item_category_maintenance" />
+                    <include layout="@layout/item_category_lessons" />
+                    <include layout="@layout/item_category_cleaning" />
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -133,10 +132,9 @@
                     android:orientation="horizontal">
 
                     <include layout="@layout/item_service" />
-                    <include layout="@layout/item_service" />
-                    <include layout="@layout/item_service" />
-                    <include layout="@layout/item_service" />
-                    <include layout="@layout/item_service" />
+                    <include layout="@layout/item_service_electrician" />
+                    <include layout="@layout/item_service_junior_assis" />
+                    <include layout="@layout/item_service_diarista" />
 
                 </LinearLayout>
             </HorizontalScrollView>

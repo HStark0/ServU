@@ -29,6 +29,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ChatListActivity" />
         <activity android:name=".ConversationActivity" />
+        <activity android:name=".ProviderProfileActivity" />
     </application>
 
 </manifest>
