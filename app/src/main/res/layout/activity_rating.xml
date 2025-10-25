@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF8F5"
+    tools:context=".RatingActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Avaliação"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/service_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <!-- Content of the service card as in the image -->
+        <include layout="@layout/item_history" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="O que você achou do pedido?"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/service_card" />
+
+    <TextView
+        android:id="@+id/rating_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escolha de 1 a 5 estrelas para classificar"
+        app:layout_constraintStart_toStartOf="@id/rating_title"
+        app:layout_constraintTop_toBottomOf="@id/rating_title" />
+
+    <RatingBar
+        android:id="@+id/rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:numStars="5"
+        android:stepSize="1.0"
+        app:layout_constraintStart_toStartOf="@id/rating_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/rating_subtitle" />
+
+    <TextView
+        android:id="@+id/comment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Comente sobre sua experiência"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/rating_bar"
+        app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/comment_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:layout_constraintEnd_toEndOf="@id/service_card"
+        app:layout_constraintStart_toStartOf="@id/comment_title"
+        app:layout_constraintTop_toBottomOf="@id/comment_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="Descreva de forma clara sua experiência com o prestador" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Confirmar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/comment_input_layout"
+        app:layout_constraintStart_toEndOf="@+id/later_button"
+        android:layout_marginBottom="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/later_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Deixar para depois"
+        android:textColor="@android:color/darker_gray"
+        app:strokeColor="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="@id/confirm_button"
+        app:layout_constraintEnd_toStartOf="@+id/confirm_button"
+        app:layout_constraintStart_toStartOf="@id/comment_input_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

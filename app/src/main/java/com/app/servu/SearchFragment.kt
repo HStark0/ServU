@@ -52,18 +52,18 @@ class SearchFragment : Fragment() {
     private fun setupCategoryList() {
         categoriesRecyclerView.layoutManager = GridLayoutManager(context, 2)
         val categories = listOf(
-            Category("Designer Gráfico", R.drawable.ic_designer_grafico),
-            Category("Técnico em Ar Condicionado", R.drawable.ic_tecnico_ar_condicionado),
-            Category("Chaveiro", R.drawable.ic_chaveiro),
-            Category("Cuidador de Idosos", R.drawable.ic_cuidador_de_idosos),
-            Category("Diarista", R.drawable.ic_diarista),
-            Category("Encanador", R.drawable.ic_encanador),
-            Category("Limpeza de Piscinas", R.drawable.ic_limpeza_de_piscinas),
-            Category("Costureira", R.drawable.ic_costureira),
-            Category("Eletricista", R.drawable.ic_eletricista),
-            Category("Jardineiro", R.drawable.ic_jardineiro),
-            Category("Bico para Reformas", R.drawable.ic_bico_para_reformas),
-            Category("Montador de Móveis", R.drawable.ic_montador_de_moveis)
+            Category("Designer Gráfico", R.drawable.designer_grafico2),
+            Category("Técnico em Ar Condicionado", R.drawable.tecnico_de_ar_condicionado),
+            Category("Chaveiro", R.drawable.chaveiro),
+            Category("Cuidador de Idosos", R.drawable.cuidador_de_idosos),
+            Category("Diarista", R.drawable.diarista),
+            Category("Encanador", R.drawable.encanador1___principal_nas_partes_do_projeto),
+            Category("Limpeza de Piscinas", R.drawable.limpador_de_piscina),
+            Category("Costureira", R.drawable.costureira),
+            Category("Eletricista", R.drawable.eletricista),
+            Category("Jardineiro", R.drawable.jardineiro),
+            Category("Bico para Reformas", R.drawable.pedreiro),
+            Category("Montador de Móveis", R.drawable.montador_de_m_veis)
         )
         categoriesRecyclerView.adapter = CategoryAdapter(categories)
     }
