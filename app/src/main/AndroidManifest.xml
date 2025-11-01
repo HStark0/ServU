@@ -31,6 +31,8 @@
         <activity android:name=".ConversationActivity" />
         <activity android:name=".ProviderProfileActivity" />
         <activity android:name=".RatingActivity" />
+        <activity android:name=".CreatePasswordActivity" />
+        <activity android:name=".EditProfileActivity" />
     </application>
 
 </manifest>

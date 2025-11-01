@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.ServU" parent="Base.Theme.ServU" />
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:height">60dp</item>
+    </style>
 </resources>

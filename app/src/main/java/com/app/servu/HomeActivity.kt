@@ -1,5 +1,6 @@
 package com.app.servu
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -25,6 +27,22 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+
+        // Set welcome message
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
+        if (lastUserEmail != null) {
+            val userFirstName = sharedPref.getString("user_first_name_$lastUserEmail", "Usuário")
+            toolbar.title = "Bem vindo, $userFirstName"
+        } else {
+            // Fallback for Google Sign In if last user not found via manual login
+            val account = GoogleSignIn.getLastSignedInAccount(this)
+            if (account != null) {
+                 val userId = account.id
+                 val userFirstName = sharedPref.getString("user_first_name_$userId", "Usuário")
+                 toolbar.title = "Bem vindo, $userFirstName"
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_container)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
