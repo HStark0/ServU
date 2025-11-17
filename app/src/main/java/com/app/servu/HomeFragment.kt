@@ -1,6 +1,7 @@
 package com.app.servu
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,12 +27,31 @@ class HomeFragment : Fragment() {
         scheduledRecyclerView = view.findViewById(R.id.home_scheduled_recycler_view)
         scheduledServicesTitle = view.findViewById(R.id.scheduled_services_title)
         scheduledRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        
+        setupCategoryClicks(view)
+        
         return view
     }
 
     override fun onResume() {
         super.onResume()
         loadScheduledServices()
+    }
+
+    private fun setupCategoryClicks(view: View) {
+        view.findViewById<View>(R.id.category_maintenance).setOnClickListener {
+            openProviderList("Manutenção")
+        }
+        view.findViewById<View>(R.id.category_transport).setOnClickListener {
+            openProviderList("Transporte")
+        }
+        // Add other categories here in the future
+    }
+
+    private fun openProviderList(category: String) {
+        val intent = Intent(context, ProviderListActivity::class.java)
+        intent.putExtra("category", category)
+        startActivity(intent)
     }
 
     private fun loadScheduledServices() {

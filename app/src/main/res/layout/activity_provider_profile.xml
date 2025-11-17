@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="-60dp" 
+                android:layout_marginTop="-60dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="16dp">
 
@@ -78,7 +78,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="Matheus Santos - Eletricista"
+                        android:text="Nome do Prestador"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Eletricista experiente, especializado em instalação, manutenção e reparo de sistemas elétricos. Atua com segurança e eficiência, segue as normas técnicas. Possui cursos em NR-10 e formação técnica na área elétrica."
+                        android:text="Descrição do prestador..."
                         app:layout_constraintEnd_toStartOf="@+id/profile_chat_icon"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/provider_profile_image" />
@@ -122,55 +122,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="Destaques"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:clipToPadding="false">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <include layout="@layout/item_destaque_video_porteiro" />
-                    <include layout="@layout/item_destaque_portao_eletrico" />
-                    <include layout="@layout/item_destaque_fechadura_eletronica" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Serviços"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/provider_services_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
+                android:orientation="horizontal"
+                android:clipToPadding="false"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:clipToPadding="false">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <include android:id="@+id/item_servico_manutencao" layout="@layout/item_servico_manutencao" />
-                    <include android:id="@+id/item_servico_instalacoes" layout="@layout/item_servico_instalacoes" />
-                    <include android:id="@+id/item_servico_iluminacao" layout="@layout/item_servico_iluminacao" />
-                </LinearLayout>
-            </HorizontalScrollView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_servico_instalacoes" />
 
         </LinearLayout>
 

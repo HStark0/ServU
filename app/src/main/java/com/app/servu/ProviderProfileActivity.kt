@@ -1,47 +1,71 @@
 package com.app.servu
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class ProviderProfileActivity : AppCompatActivity(), 
-    ScheduleDialogFragment.ScheduleDialogListener, 
+class ProviderProfileActivity : AppCompatActivity(),
+    ScheduleDialogFragment.ScheduleDialogListener,
     PaymentDialogFragment.PaymentDialogListener {
 
-    private var tempServiceName: String? = null
+    private var provider: Provider? = null
+    private var tempService: ProviderService? = null
     private var tempDate: String? = null
     private var tempTime: String? = null
     private var tempLocation: String? = null
-    private var tempServiceValue: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_provider_profile)
 
+        provider = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("provider", Provider::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("provider")
+        }
+
+        if (provider == null) {
+            finish() // Finish if no provider data is found
+            return
+        }
+
+        setupToolbar()
+        populateProviderData()
+        setupServicesRecyclerView()
+    }
+
+    private fun setupToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
-
-        setupServiceButton("Manutenção", R.id.item_servico_manutencao, "R$ 500,00")
-        setupServiceButton("Instalações", R.id.item_servico_instalacoes, "R$ 300,00")
-        setupServiceButton("Iluminação", R.id.item_servico_iluminacao, "R$ 190,00")
     }
 
-    private fun setupServiceButton(serviceName: String, layoutId: Int, serviceValue: String) {
-        val serviceLayout = findViewById<View>(layoutId)
-        val scheduleButton = serviceLayout.findViewById<Button>(R.id.schedule_button)
-        scheduleButton.setOnClickListener {
-            tempServiceName = serviceName
-            tempServiceValue = serviceValue
+    private fun populateProviderData() {
+        findViewById<TextView>(R.id.provider_profile_name).text = "${provider!!.name} - ${provider!!.specialty}"
+        findViewById<TextView>(R.id.provider_description).text = provider!!.description
+        findViewById<ImageView>(R.id.provider_profile_image).setImageResource(provider!!.profileImageResId)
+        findViewById<ImageView>(R.id.provider_background_image).setImageResource(provider!!.backgroundImageResId)
+    }
+
+    private fun setupServicesRecyclerView() {
+        val servicesRecyclerView = findViewById<RecyclerView>(R.id.provider_services_recycler_view)
+        servicesRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = ProviderServiceAdapter(provider!!.services) { service ->
+            tempService = service
             showScheduleDialog()
         }
+        servicesRecyclerView.adapter = adapter
     }
 
     private fun showScheduleDialog() {
@@ -54,26 +78,25 @@ class ProviderProfileActivity : AppCompatActivity(),
         tempDate = date
         tempTime = time
         tempLocation = location
-        
+
         val paymentDialog = PaymentDialogFragment()
         paymentDialog.listener = this
         paymentDialog.show(supportFragmentManager, "PaymentDialogFragment")
     }
 
     override fun onPaymentConfirmed(paymentMethod: String, paymentCondition: String) {
-        val service = ScheduledService(
-            serviceName = tempServiceName!!,
-            providerName = "Matheus Santos - Eletricista", // Hardcoded for now
+        val finalService = ScheduledService(
+            serviceName = tempService!!.name,
+            providerName = provider!!.name,
             date = tempDate!!,
             time = tempTime!!,
             location = tempLocation!!,
             paymentMethod = paymentMethod,
             paymentCondition = paymentCondition,
-            serviceValue = tempServiceValue!!
+            serviceValue = tempService!!.value
         )
 
-        saveScheduledService(service)
-
+        saveScheduledService(finalService)
         Toast.makeText(this, "Agendamento concluído com sucesso!", Toast.LENGTH_LONG).show()
     }
 

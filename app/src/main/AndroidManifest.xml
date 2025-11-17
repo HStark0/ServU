@@ -30,6 +30,7 @@
         <activity android:name=".ChatListActivity" />
         <activity android:name=".ConversationActivity" />
         <activity android:name=".ProviderProfileActivity" />
+        <activity android:name=".ProviderListActivity" />
         <activity android:name=".RatingActivity" />
         <activity android:name=".CreatePasswordActivity" />
         <activity android:name=".EditProfileActivity" />

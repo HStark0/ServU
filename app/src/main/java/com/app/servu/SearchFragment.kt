@@ -38,9 +38,10 @@ class SearchFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().equals("eletricista", ignoreCase = true)) {
-                    showSearchResults()
-                } else {
+                val query = s.toString()
+                if (query.length > 2) { // Start searching after 3 characters
+                    showSearchResults(query)
+                } else if (query.isEmpty()) {
                     setupCategoryList()
                 }
             }
@@ -65,18 +66,19 @@ class SearchFragment : Fragment() {
             Category("Bico para Reformas", R.drawable.pedreiro),
             Category("Montador de Móveis", R.drawable.montador_de_m_veis)
         )
-        categoriesRecyclerView.adapter = CategoryAdapter(categories)
+        categoriesRecyclerView.adapter = CategoryAdapter(categories) { category ->
+            val intent = Intent(context, ProviderListActivity::class.java)
+            intent.putExtra("category", category.name)
+            startActivity(intent)
+        }
     }
 
-    private fun showSearchResults() {
+    private fun showSearchResults(query: String) {
         categoriesRecyclerView.layoutManager = LinearLayoutManager(context)
-        val searchResults = listOf(
-            SearchResult("Antônio Souza - Eletricista", 5.0f, "Especialista em instalações", 41, R.drawable.ic_profile_placeholder),
-            SearchResult("Matheus Silva - Eletricista", 4.8f, "Especialista em instalações", 35, R.drawable.ic_profile_placeholder),
-            SearchResult("José Silva - Eletricista", 3.1f, "Especialista em instalações", 28, R.drawable.ic_profile_placeholder)
-        )
-        categoriesRecyclerView.adapter = SearchResultAdapter(searchResults) {
+        val searchResults = ProviderListActivity.searchProviders(query)
+        categoriesRecyclerView.adapter = ProviderAdapter(searchResults) { provider ->
             val intent = Intent(context, ProviderProfileActivity::class.java)
+            intent.putExtra("provider", provider)
             startActivity(intent)
         }
     }

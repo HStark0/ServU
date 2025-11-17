@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 data class Category(val name: String, val imageResId: Int)
 
-class CategoryAdapter(private val categories: List<Category>) :
+class CategoryAdapter(
+    private val categories: List<Category>,
+    private val onCategoryClick: (Category) -> Unit
+) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,6 +30,7 @@ class CategoryAdapter(private val categories: List<Category>) :
         val category = categories[position]
         holder.categoryName.text = category.name
         holder.categoryImage.setImageResource(category.imageResId)
+        holder.itemView.setOnClickListener { onCategoryClick(category) }
     }
 
     override fun getItemCount() = categories.size
