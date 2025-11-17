@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:title="Meus Dados"
+        app:menu="@menu/edit_profile_menu"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -37,7 +38,7 @@
         android:textColor="?attr/colorPrimary"
         app:layout_constraintTop_toBottomOf="@+id/profile_image"
         app:layout_constraintStart_toStartOf="@id/profile_image"
-        app:layout_constraintEnd_toEndOf="@+id/profile_image"/>
+        app:layout_constraintEnd_toEndOf="@id/profile_image"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_input_layout"
@@ -55,7 +56,8 @@
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome Completo" />
+            android:hint="Nome Completo"
+            android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +74,8 @@
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail" />
+            android:hint="E-mail"
+            android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +92,8 @@
             android:id="@+id/cpf_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="CPF" />
+            android:hint="CPF"
+            android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -106,7 +110,8 @@
             android:id="@+id/location_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Localização" />
+            android:hint="Localização"
+            android:enabled="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -117,6 +122,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

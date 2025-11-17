@@ -109,10 +109,10 @@
 
     <ImageView
         android:id="@+id/bottomLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo_servu_small"
-        android:layout_marginBottom="32dp"
+        android:layout_width="135dp"
+        android:layout_height="54dp"
+        android:src="@drawable/logo_servu_pequena"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

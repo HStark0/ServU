@@ -32,28 +32,38 @@ class MainActivity : AppCompatActivity() {
             val account = task.getResult(ApiException::class.java)!!
             Log.d("MainActivity", "Google Sign-In successful for: ${account.email}")
 
-            // Save the Google account email as the last logged in user
-            val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                putString("last_logged_in_user", account.email)
-                apply()
-            }
-            
+            saveGoogleUserData(account)
             checkProfileAndNavigate(account)
+
         } catch (e: ApiException) {
             Log.w("MainActivity", "Google sign in failed with code: ${e.statusCode}", e)
+        }
+    }
+    
+    private fun saveGoogleUserData(account: GoogleSignInAccount) {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val userId = account.id ?: return
+
+        with(sharedPref.edit()) {
+            putString("last_logged_in_user", userId) // Save Google ID as last logged in
+
+            // Save user details using Google ID as key
+            putString("user_first_name_$userId", account.givenName ?: "")
+            putString("user_last_name_$userId", account.familyName ?: "")
+            putString("user_email_$userId", account.email ?: "")
+            
+            apply()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check if user is already signed in and profile is complete
-        val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(this)
-        if (lastSignedInAccount != null) {
-            val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            val userId = lastSignedInAccount.id
-            val isProfileComplete = sharedPref.getBoolean("profile_complete_$userId", false)
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val lastUserId = sharedPref.getString("last_logged_in_user", null)
+
+        if (lastUserId != null) {
+            val isProfileComplete = sharedPref.getBoolean("profile_complete_$lastUserId", false)
             if (isProfileComplete) {
                 navigateToHome()
                 return // Skip the rest of onCreate
@@ -121,8 +131,7 @@ class MainActivity : AppCompatActivity() {
             val savedPassword = credentialsPref.getString(enteredEmail, null) // Use email as key
 
             if (enteredPassword == savedPassword) {
-                val userPrefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-                with(userPrefs.edit()) {
+                with(sharedPref.edit()) {
                     putString("last_logged_in_user", enteredEmail)
                     apply()
                 }
@@ -141,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkProfileAndNavigate(account: GoogleSignInAccount) {
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val userId = account.id
+        val userId = account.id ?: return
         val isProfileComplete = sharedPref.getBoolean("profile_complete_$userId", false)
         if (isProfileComplete) {
             navigateToHome()

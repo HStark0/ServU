@@ -2,10 +2,12 @@ package com.app.servu
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,20 +30,21 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val profileNameTextView = view.findViewById<TextView>(R.id.profile_name)
+        val profileImageView = view.findViewById<ImageView>(R.id.profile_image)
+
         val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
 
-        if (lastUserEmail != null) {
-            val firstName = sharedPref.getString("user_first_name_$lastUserEmail", "Usuário")
-            val lastName = sharedPref.getString("user_last_name_$lastUserEmail", "")
+        val userId = lastUserEmail ?: GoogleSignIn.getLastSignedInAccount(requireActivity())?.id
+
+        if (userId != null) {
+            val firstName = sharedPref.getString("user_first_name_$userId", "Usuário")
+            val lastName = sharedPref.getString("user_last_name_$userId", "")
             profileNameTextView.text = "$firstName $lastName".trim()
-        } else {
-            val account = GoogleSignIn.getLastSignedInAccount(requireActivity())
-            if (account != null) {
-                val userId = account.id
-                val firstName = sharedPref.getString("user_first_name_$userId", "Usuário")
-                val lastName = sharedPref.getString("user_last_name_$userId", "")
-                profileNameTextView.text = "$firstName $lastName".trim()
+
+            val imageUriString = sharedPref.getString("user_profile_image_uri_$userId", null)
+            if (imageUriString != null) {
+                profileImageView.setImageURI(Uri.parse(imageUriString))
             }
         }
 
@@ -65,11 +68,41 @@ class ProfileFragment : Fragment() {
 
         profileOptionsRecyclerView.adapter = ProfileOptionAdapter(options)
 
-        val signOutButton = view.findViewById<MaterialButton>(R.id.sign_out_button)
-        signOutButton.setOnClickListener {
-            signOut()
+        // The sign-out button is no longer in this layout
+        // val signOutButton = view.findViewById<MaterialButton>(R.id.sign_out_button)
+        // signOutButton.setOnClickListener {
+        //     signOut()
+        // }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh user data when the fragment is resumed
+        view?.let { updateProfileData(it) }
+    }
+
+    private fun updateProfileData(view: View) {
+        val profileNameTextView = view.findViewById<TextView>(R.id.profile_name)
+        val profileImageView = view.findViewById<ImageView>(R.id.profile_image)
+        val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
+        val userId = lastUserEmail ?: GoogleSignIn.getLastSignedInAccount(requireActivity())?.id
+
+        if (userId != null) {
+            val firstName = sharedPref.getString("user_first_name_$userId", "Usuário")
+            val lastName = sharedPref.getString("user_last_name_$userId", "")
+            profileNameTextView.text = "$firstName $lastName".trim()
+
+            val imageUriString = sharedPref.getString("user_profile_image_uri_$userId", null)
+            if (imageUriString != null) {
+                profileImageView.setImageURI(Uri.parse(imageUriString))
+            } else {
+                // Set a default image if no profile image is set
+                profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
+            }
         }
     }
+
 
     private fun signOut() {
         // Sign out from Google

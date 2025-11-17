@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pagamento"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Método de Pagamento"/>
+
+    <RadioGroup
+        android:id="@+id/payment_method_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cartão de Crédito/Débito" />
+
+        <RadioButton
+            android:id="@+id/radio_pix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pix" />
+
+        <RadioButton
+            android:id="@+id/radio_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dinheiro" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Condição de Pagamento"/>
+
+    <RadioGroup
+        android:id="@+id/payment_condition_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_pay_upfront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pagar valor total antecipado" />
+
+        <RadioButton
+            android:id="@+id/radio_pay_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pagar 50% agora e 50% ao final" />
+
+        <RadioButton
+            android:id="@+id/radio_pay_later"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pagar valor total ao final do serviço" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/finish_schedule_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Concluir Agendamento" />
+
+</LinearLayout>
