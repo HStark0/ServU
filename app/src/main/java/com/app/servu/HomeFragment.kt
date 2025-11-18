@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
         scheduledRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         
         setupCategoryClicks(view)
+        setupRecommendedServicesClicks(view)
         
         return view
     }
@@ -39,13 +40,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupCategoryClicks(view: View) {
-        view.findViewById<View>(R.id.category_maintenance).setOnClickListener {
-            openProviderList("Manutenção")
+        view.findViewById<View>(R.id.category_maintenance).setOnClickListener { openProviderList("Manutenção") }
+        view.findViewById<View>(R.id.category_transport).setOnClickListener { openProviderList("Transporte") }
+    }
+    
+    private fun setupRecommendedServicesClicks(view: View) {
+        // UNIFIED FLOW: Open the provider's profile directly.
+        view.findViewById<View>(R.id.recommended_service_1).setOnClickListener { openProviderProfile("2") } // João Ernesto - Freteiro
+        view.findViewById<View>(R.id.recommended_service_2).setOnClickListener { openProviderProfile("1") } // Matheus Santos - Eletricista
+        view.findViewById<View>(R.id.recommended_service_3).setOnClickListener { openProviderProfile("5") } // Carlos Ferreira - Encanador
+        view.findViewById<View>(R.id.recommended_service_4).setOnClickListener { openProviderProfile("3") } // Maria Oliveira - Diarista
+    }
+
+    private fun openProviderProfile(providerId: String) {
+        val provider = ProviderListActivity.getAllProviders().find { it.id == providerId }
+        if (provider != null) {
+            val intent = Intent(context, ProviderProfileActivity::class.java)
+            intent.putExtra("provider", provider)
+            startActivity(intent)
         }
-        view.findViewById<View>(R.id.category_transport).setOnClickListener {
-            openProviderList("Transporte")
-        }
-        // Add other categories here in the future
     }
 
     private fun openProviderList(category: String) {

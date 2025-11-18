@@ -3,6 +3,8 @@ package com.app.servu
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +20,9 @@ class ProviderProfileActivity : AppCompatActivity(),
     PaymentDialogFragment.PaymentDialogListener {
 
     private var provider: Provider? = null
+    private var isFavorite: Boolean = false
+    
+    // Temporary data for the scheduling flow
     private var tempService: ProviderService? = null
     private var tempDate: String? = null
     private var tempTime: String? = null
@@ -35,19 +40,51 @@ class ProviderProfileActivity : AppCompatActivity(),
         }
 
         if (provider == null) {
-            finish() // Finish if no provider data is found
+            finish()
             return
         }
+
+        isFavorite = isProviderFavorite(provider!!.id)
 
         setupToolbar()
         populateProviderData()
         setupServicesRecyclerView()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.provider_profile_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val favoriteItem = menu.findItem(R.id.action_favorite)
+        favoriteItem.setIcon(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favorite -> {
+                toggleFavoriteStatus()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    
+    private fun toggleFavoriteStatus() {
+        isFavorite = !isFavorite
+        updateFavoriteProvider(provider!!.id, isFavorite)
+        invalidateOptionsMenu()
+        val message = if (isFavorite) "Adicionado aos favoritos" else "Removido dos favoritos"
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun setupToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = null
         toolbar.setNavigationOnClickListener { finish() }
     }
 
@@ -68,6 +105,8 @@ class ProviderProfileActivity : AppCompatActivity(),
         servicesRecyclerView.adapter = adapter
     }
 
+    // --- Scheduling Logic (Restored) ---
+
     private fun showScheduleDialog() {
         val dialog = ScheduleDialogFragment()
         dialog.listener = this
@@ -78,7 +117,7 @@ class ProviderProfileActivity : AppCompatActivity(),
         tempDate = date
         tempTime = time
         tempLocation = location
-
+        
         val paymentDialog = PaymentDialogFragment()
         paymentDialog.listener = this
         paymentDialog.show(supportFragmentManager, "PaymentDialogFragment")
@@ -111,6 +150,28 @@ class ProviderProfileActivity : AppCompatActivity(),
 
         with(sharedPref.edit()) {
             putString("scheduled_services", gson.toJson(scheduledServices))
+            apply()
+        }
+    }
+
+    // --- Favorites Logic ---
+
+    private fun isProviderFavorite(providerId: String): Boolean {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val favoriteIds = sharedPref.getStringSet("favorite_providers", emptySet()) ?: emptySet()
+        return favoriteIds.contains(providerId)
+    }
+
+    private fun updateFavoriteProvider(providerId: String, isFavorite: Boolean) {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val favoriteIds = sharedPref.getStringSet("favorite_providers", emptySet())?.toMutableSet() ?: mutableSetOf()
+        if (isFavorite) {
+            favoriteIds.add(providerId)
+        } else {
+            favoriteIds.remove(providerId)
+        }
+        with(sharedPref.edit()) {
+            putStringSet("favorite_providers", favoriteIds)
             apply()
         }
     }

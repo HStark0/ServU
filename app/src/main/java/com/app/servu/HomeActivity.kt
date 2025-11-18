@@ -20,29 +20,15 @@ class HomeActivity : AppCompatActivity() {
     private val searchFragment = SearchFragment()
     private val historyFragment = HistoryFragment()
     private val profileFragment = ProfileFragment()
+    private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-
-        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
-
-        // Set welcome message
-        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
-        if (lastUserEmail != null) {
-            val userFirstName = sharedPref.getString("user_first_name_$lastUserEmail", "Usuário")
-            toolbar.title = "Bem vindo, $userFirstName"
-        } else {
-            // Fallback for Google Sign In if last user not found via manual login
-            val account = GoogleSignIn.getLastSignedInAccount(this)
-            if (account != null) {
-                 val userId = account.id
-                 val userFirstName = sharedPref.getString("user_first_name_$userId", "Usuário")
-                 toolbar.title = "Bem vindo, $userFirstName"
-            }
-        }
+        
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home_container)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -50,9 +36,10 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
-        // Set initial state for the first load
-        toolbar.visibility = View.VISIBLE
-        loadFragment(homeFragment)
+        if (savedInstanceState == null) {
+            toolbar.visibility = View.VISIBLE
+            loadFragment(homeFragment)
+        }
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -81,11 +68,30 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        val chatIcon = findViewById<ImageView>(R.id.chat_icon)
-        chatIcon.setOnClickListener {
-            val intent = Intent(this, ChatListActivity::class.java)
-            startActivity(intent)
+        findViewById<ImageView>(R.id.notifications_icon).setOnClickListener {
+            startActivity(Intent(this, NotificationsActivity::class.java))
         }
+
+        findViewById<ImageView>(R.id.chat_icon).setOnClickListener {
+            startActivity(Intent(this, ChatListActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateWelcomeMessage()
+    }
+
+    private fun updateWelcomeMessage() {
+        val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val lastUserId = sharedPref.getString("last_logged_in_user", null)
+        val userFirstName = if (lastUserId != null) {
+            sharedPref.getString("user_first_name_$lastUserId", "Usuário")
+        } else {
+             val account = GoogleSignIn.getLastSignedInAccount(this)
+             account?.givenName ?: "Usuário"
+        }
+        toolbar.title = "Bem vindo, $userFirstName"
     }
 
     private fun loadFragment(fragment: Fragment) {

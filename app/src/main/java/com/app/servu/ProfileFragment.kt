@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.button.MaterialButton
 
 class ProfileFragment : Fragment() {
     override fun onCreateView(
@@ -58,7 +57,6 @@ class ProfileFragment : Fragment() {
         profileOptionsRecyclerView.layoutManager = LinearLayoutManager(context)
 
         val options = listOf(
-            ProfileOption(R.drawable.ic_notifications, "Notificações"),
             ProfileOption(R.drawable.ic_credit_card, "Pagamentos"),
             ProfileOption(R.drawable.ic_favorite, "Favoritos"),
             ProfileOption(R.drawable.ic_address, "Endereços"),
@@ -67,17 +65,10 @@ class ProfileFragment : Fragment() {
         )
 
         profileOptionsRecyclerView.adapter = ProfileOptionAdapter(options)
-
-        // The sign-out button is no longer in this layout
-        // val signOutButton = view.findViewById<MaterialButton>(R.id.sign_out_button)
-        // signOutButton.setOnClickListener {
-        //     signOut()
-        // }
     }
 
     override fun onResume() {
         super.onResume()
-        // Refresh user data when the fragment is resumed
         view?.let { updateProfileData(it) }
     }
 
@@ -97,19 +88,16 @@ class ProfileFragment : Fragment() {
             if (imageUriString != null) {
                 profileImageView.setImageURI(Uri.parse(imageUriString))
             } else {
-                // Set a default image if no profile image is set
                 profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
             }
         }
     }
 
-
     private fun signOut() {
-        // Sign out from Google
+        // This part seems to be unreachable now, but we'll keep it for future use.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         googleSignInClient.signOut().addOnCompleteListener(requireActivity()) { 
-            // Clear last logged in user
             val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
                 remove("last_logged_in_user")

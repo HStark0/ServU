@@ -3,4 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    
+    <!-- Greens for Theming -->
+    <color name="green_primary">#FF00695C</color>
+    <color name="green_dark">#FF004D40</color>
+    
+    <!-- Dark Theme Colors -->
+    <color name="dark_background">#00251a</color>
+    <color name="dark_surface">#003d33</color>
+    <color name="light_green_text">#C8E6C9</color>
+
 </resources>

@@ -34,6 +34,12 @@
         <activity android:name=".RatingActivity" />
         <activity android:name=".CreatePasswordActivity" />
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".PaymentsActivity" />
+        <activity android:name=".AddressesActivity" />
+        <activity android:name=".HelpActivity" />
     </application>
 
 </manifest>

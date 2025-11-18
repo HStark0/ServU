@@ -135,12 +135,12 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- Services -->
+            <!-- Recommended Services -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Serviços"
+                android:text="Serviços Recomendados"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -155,40 +155,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/item_service" />
-                    <include layout="@layout/item_service_electrician" />
-                    <include layout="@layout/item_service_junior_assis" />
-                    <include layout="@layout/item_service_diarista" />
+                    <include android:id="@+id/recommended_service_1" layout="@layout/item_service" />
+                    <include android:id="@+id/recommended_service_2" layout="@layout/item_service_electrician" />
+                    <include android:id="@+id/recommended_service_3" layout="@layout/item_service_junior_assis" />
+                    <include android:id="@+id/recommended_service_4" layout="@layout/item_service_diarista" />
 
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- Offers -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Ofertas"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_offer" />
-                    <include layout="@layout/item_offer" />
-                    <include layout="@layout/item_offer" />
-
-                </LinearLayout>
-            </HorizontalScrollView>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
