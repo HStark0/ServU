@@ -7,17 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class SearchResult(val name: String, val rating: Float, val specialty: String, val services: Int, val imageResId: Int)
-
-class SearchResultAdapter(private val results: List<SearchResult>, private val onClick: (SearchResult) -> Unit) :
-    RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
+class SearchResultAdapter(
+    private val providers: List<Provider>,
+    private val onItemClicked: (Provider) -> Unit
+) : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val providerImage: ImageView = view.findViewById(R.id.provider_image)
         val providerName: TextView = view.findViewById(R.id.provider_name)
         val providerRating: TextView = view.findViewById(R.id.provider_rating)
         val providerSpecialty: TextView = view.findViewById(R.id.provider_specialty)
-        val providerServices: TextView = view.findViewById(R.id.provider_services)
+        val providerServicesCount: TextView = view.findViewById(R.id.provider_services_count)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,15 +27,14 @@ class SearchResultAdapter(private val results: List<SearchResult>, private val o
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val result = results[position]
-        holder.providerImage.setImageResource(result.imageResId)
-        holder.providerName.text = result.name
-        holder.providerRating.text = result.rating.toString()
-        holder.providerSpecialty.text = result.specialty
-        holder.providerServices.text = "Serviços: ${result.services}"
-
-        holder.itemView.setOnClickListener { onClick(result) }
+        val provider = providers[position]
+        holder.providerImage.setImageResource(provider.profileImageResId)
+        holder.providerName.text = "${provider.name} - ${provider.specialty}"
+        holder.providerRating.text = provider.rating.toString()
+        holder.providerSpecialty.text = "Especialista em ${provider.category.lowercase()}"
+        holder.providerServicesCount.text = "Serviços: ${provider.services.size}"
+        holder.itemView.setOnClickListener { onItemClicked(provider) }
     }
 
-    override fun getItemCount() = results.size
+    override fun getItemCount() = providers.size
 }

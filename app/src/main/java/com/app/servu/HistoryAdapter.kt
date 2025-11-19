@@ -5,15 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-
-// Updated data class to include status
-data class HistoryItem(
-    val providerName: String, 
-    val serviceDescription: String, 
-    val rating: Float, 
-    val status: String
-)
 
 class HistoryAdapter(
     private val historyItems: List<HistoryItem>,
@@ -26,7 +19,8 @@ class HistoryAdapter(
         val serviceDescription: TextView = view.findViewById(R.id.service_description)
         val ratingBar: RatingBar = view.findViewById(R.id.rating_bar)
         val detailsButton: TextView = view.findViewById(R.id.details_button)
-        val statusTextView: TextView = view.findViewById(R.id.service_status) // Get status TextView
+        val statusTextView: TextView = view.findViewById(R.id.service_status)
+        val ratingUnavailableTextView: TextView = view.findViewById(R.id.rating_unavailable_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,13 +34,16 @@ class HistoryAdapter(
         holder.providerName.text = item.providerName
         holder.serviceDescription.text = item.serviceDescription
         holder.ratingBar.rating = item.rating
-        holder.statusTextView.text = item.status // Set the status text
+        holder.statusTextView.text = item.status
 
-        // Hide rating bar if the service was canceled
-        if (item.status.contains("cancelado")) {
+        if (item.status.contains("cancelado", ignoreCase = true)) {
             holder.ratingBar.visibility = View.GONE
+            holder.ratingUnavailableTextView.visibility = View.VISIBLE
+            holder.statusTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_block, 0)
         } else {
             holder.ratingBar.visibility = View.VISIBLE
+            holder.ratingUnavailableTextView.visibility = View.GONE
+            holder.statusTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
         }
 
         holder.detailsButton.setOnClickListener {

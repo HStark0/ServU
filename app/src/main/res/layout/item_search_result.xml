@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
+    android:layout_marginHorizontal="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,73 +16,71 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/provider_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_profile_placeholder"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            tools:src="@drawable/eletricista" />
 
         <TextView
             android:id="@+id/provider_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="Antônio Souza - Eletricista"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/favorite_icon"
             app:layout_constraintStart_toEndOf="@+id/provider_image"
-            app:layout_constraintTop_toTopOf="@+id/provider_image"
-            tools:text="Antônio Souza - Eletricista" />
+            app:layout_constraintTop_toTopOf="@+id/provider_image" />
 
         <TextView
             android:id="@+id/provider_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:drawablePadding="4dp"
+            android:text="5,0"
             app:drawableStartCompat="@drawable/ic_star"
             app:layout_constraintStart_toStartOf="@+id/provider_name"
-            app:layout_constraintTop_toBottomOf="@+id/provider_name"
-            tools:text="5,0" />
+            app:layout_constraintTop_toBottomOf="@+id/provider_name" />
 
         <TextView
             android:id="@+id/provider_specialty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
+            android:text="Especialista em instalações"
             app:layout_constraintBottom_toBottomOf="@+id/provider_rating"
             app:layout_constraintStart_toEndOf="@+id/provider_rating"
-            tools:text="Especialista em instalações" />
+            app:layout_constraintTop_toTopOf="@+id/provider_rating" />
 
         <TextView
-            android:id="@+id/provider_services"
+            android:id="@+id/provider_services_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:text="Serviços: 41"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/provider_rating"
-            app:layout_constraintTop_toBottomOf="@+id/provider_rating"
-            tools:text="Serviços: 41" />
+            app:layout_constraintTop_toBottomOf="@+id/provider_rating" />
 
         <ImageView
             android:id="@+id/favorite_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_heart_outline"
+            android:src="@drawable/ic_favorite_border"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/provider_name" />
 
         <ImageView
             android:id="@+id/arrow_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_forward"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/provider_services_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/provider_services_count" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

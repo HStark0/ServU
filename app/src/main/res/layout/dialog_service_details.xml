@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="16dp">
@@ -70,13 +71,70 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/detail_status_label"/>
 
         <TextView
+            android:id="@+id/detail_payment_method_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Pagamento:"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/detail_status_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/detail_payment_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cartão de Crédito"
+            app:layout_constraintStart_toEndOf="@+id/detail_payment_method_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_payment_method_label"/>
+
+        <TextView
+            android:id="@+id/detail_payment_condition_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Condição:"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/detail_payment_method_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/detail_payment_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="2x"
+            app:layout_constraintStart_toEndOf="@+id/detail_payment_condition_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_payment_condition_label"/>
+
+        <TextView
+            android:id="@+id/detail_location_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Local:"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/detail_payment_condition_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/detail_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Minha Casa"
+            app:layout_constraintStart_toEndOf="@+id/detail_location_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_location_label"/>
+
+        <TextView
             android:id="@+id/detail_value_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Valor:"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/detail_status_label"
+            app:layout_constraintTop_toBottomOf="@+id/detail_location_label"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
@@ -87,6 +145,26 @@
             android:text="R$ 190,00"
             app:layout_constraintStart_toEndOf="@+id/detail_value_label"
             app:layout_constraintBaseline_toBaselineOf="@+id/detail_value_label"/>
+
+        <TextView
+            android:id="@+id/detail_description_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Descrição:"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/detail_value_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/detail_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Um serviço de frete para uma carga pequena foi realizado com sucesso."
+            app:layout_constraintStart_toEndOf="@+id/detail_description_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_description_label"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

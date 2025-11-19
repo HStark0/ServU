@@ -2,11 +2,16 @@ package com.app.servu
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -91,7 +96,16 @@ class HomeActivity : AppCompatActivity() {
              val account = GoogleSignIn.getLastSignedInAccount(this)
              account?.givenName ?: "Usuário"
         }
-        toolbar.title = "Bem vindo, $userFirstName"
+        
+        val welcomeText = "Bem vindo, "
+        val spannable = SpannableString("$welcomeText$userFirstName")
+        spannable.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(this, R.color.custom_accent_green)),
+            welcomeText.length, 
+            spannable.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        toolbar.title = spannable
     }
 
     private fun loadFragment(fragment: Fragment) {

@@ -49,25 +49,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/provider_image" />
 
-        <RatingBar
-            android:id="@+id/rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
+        <FrameLayout
+            android:id="@+id/rating_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:rating="3.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/service_description" />
+            app:layout_constraintTop_toBottomOf="@+id/service_description">
 
-        <TextView
-            android:id="@+id/rating_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Avaliação postada"
-            app:layout_constraintBottom_toBottomOf="@+id/rating_bar"
-            app:layout_constraintStart_toEndOf="@+id/rating_bar"
-            app:layout_constraintTop_toTopOf="@+id/rating_bar" />
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="3.5" />
+
+            <TextView
+                android:id="@+id/rating_unavailable_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avaliação indisponível"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/details_button"
@@ -78,8 +81,7 @@
             android:textColor="@color/black"
             app:drawableEndCompat="@drawable/ic_arrow_down"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
-
+            app:layout_constraintTop_toBottomOf="@+id/rating_container" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

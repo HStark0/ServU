@@ -8,10 +8,15 @@
     <!-- Greens for Theming -->
     <color name="green_primary">#FF00695C</color>
     <color name="green_dark">#FF004D40</color>
+    <color name="custom_accent_green">#16A685</color>
     
     <!-- Dark Theme Colors -->
     <color name="dark_background">#00251a</color>
     <color name="dark_surface">#003d33</color>
     <color name="light_green_text">#C8E6C9</color>
+
+    <!-- Light Theme App Background -->
+    <color name="app_background">#F9F7F3</color>
+    <color name="surface_light">#FFFEF8</color>
 
 </resources>

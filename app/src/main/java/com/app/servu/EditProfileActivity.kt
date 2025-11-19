@@ -14,6 +14,8 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
+import java.io.File
+import java.io.FileOutputStream
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -30,7 +32,7 @@ class EditProfileActivity : AppCompatActivity() {
     private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             profileImageView.setImageURI(it)
-            saveImageUri(it)
+            copyAndSaveImage(it)
         }
     }
 
@@ -50,7 +52,7 @@ class EditProfileActivity : AppCompatActivity() {
         cpfEditText = findViewById(R.id.cpf_edit_text)
         saveButton = findViewById(R.id.save_button)
 
-        loadUserData()
+        loadUserData(true) // TEMPORARY: Force clear name
         toggleEditMode(isEditMode) // Set initial state
 
         val photoClickListener = View.OnClickListener {
@@ -105,21 +107,26 @@ class EditProfileActivity : AppCompatActivity() {
         return googleAccount?.id
     }
 
-    private fun loadUserData() {
+    private fun loadUserData(clearName: Boolean = false) {
         val userId = getUserId() ?: return
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-        val firstName = sharedPref.getString("user_first_name_$userId", "")
-        val lastName = sharedPref.getString("user_last_name_$userId", "")
         val email = sharedPref.getString("user_email_$userId", "")
         val cpf = sharedPref.getString("user_cpf_$userId", "")
-        val imageUriString = sharedPref.getString("user_profile_image_uri_$userId", null)
+        val imagePath = sharedPref.getString("user_profile_image_path_$userId", null)
 
-        nameEditText.setText("$firstName $lastName".trim())
+        if (clearName) {
+            nameEditText.setText("")
+        } else {
+            val firstName = sharedPref.getString("user_first_name_$userId", "")
+            val lastName = sharedPref.getString("user_last_name_$userId", "")
+            nameEditText.setText("$firstName $lastName".trim())
+        }
+        
         emailEditText.setText(email)
         cpfEditText.setText(cpf)
-        if (imageUriString != null) {
-            profileImageView.setImageURI(Uri.parse(imageUriString))
+        if (imagePath != null) {
+            profileImageView.setImageURI(Uri.fromFile(File(imagePath)))
         }
     }
 
@@ -141,12 +148,25 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveImageUri(uri: Uri) {
+    private fun copyAndSaveImage(uri: Uri) {
         val userId = getUserId() ?: return
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("user_profile_image_uri_$userId", uri.toString())
-            apply()
+
+        val fileName = "profile_image_$userId.jpg"
+        val destinationFile = File(filesDir, fileName)
+
+        try {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                FileOutputStream(destinationFile).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            with(sharedPref.edit()) {
+                putString("user_profile_image_path_$userId", destinationFile.absolutePath)
+                apply()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

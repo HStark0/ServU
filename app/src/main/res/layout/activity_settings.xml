@@ -12,13 +12,6 @@
         app:title="Configurações"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/dark_mode_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Modo Noturno" />
-
     <Button
         android:id="@+id/clear_history_button"
         android:layout_width="wrap_content"

@@ -24,18 +24,21 @@
                 android:paddingEnd="16dp">
 
                 <com.google.android.material.chip.Chip
+                    style="@style/CustomChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Favoritos"
                     app:chipIcon="@drawable/ic_favorite" />
 
                 <com.google.android.material.chip.Chip
+                    style="@style/CustomChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Recentes"
                     app:chipIcon="@drawable/ic_recent" />
 
                 <com.google.android.material.chip.Chip
+                    style="@style/CustomChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Endereços"

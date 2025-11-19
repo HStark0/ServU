@@ -219,7 +219,7 @@ class ProviderListActivity : AppCompatActivity() {
                         ProviderService("Tratamento de Choque (Água Verde)", "R$ 250,00", "Aprox. 2h", R.drawable.limpador_de_piscina)
                     )
                 ),
-                // Bico para Reformas
+                 // Bico para Reformas
                 Provider(
                     id = "21", name = "Paulo Rocha", specialty = "Marido de Aluguel", rating = 4.8f, category = "Bico para Reformas",
                     description = "Pequenos reparos, instalações de prateleiras, cortinas, suportes de TV, pinturas e muito mais. Soluções rápidas para sua casa.",
@@ -227,6 +227,45 @@ class ProviderListActivity : AppCompatActivity() {
                     services = listOf(
                         ProviderService("Instalação de Prateleira", "R$ 70,00", "Aprox. 45min", R.drawable.pedreiro),
                         ProviderService("Pintura de Parede (até 9m²)", "R$ 350,00", "Aprox. 4h", R.drawable.pedreiro)
+                    )
+                ),
+                // Transporte
+                 Provider(
+                    id = "22", name = "João Ernesto", specialty = "Freteiro", rating = 4.5f, category = "Transporte",
+                    description = "Serviços de frete e mudança com agilidade e segurança.",
+                    profileImageResId = R.drawable.ic_truck_transport, backgroundImageResId = R.drawable.ic_placeholder,
+                    services = listOf(
+                        ProviderService("Frete de Carga Pequena", "R$ 150,00", "Aprox. 1h", R.drawable.ic_truck_transport)
+                    )
+                ),
+                // Aulas
+                Provider(
+                    id = "23", name = "Prof.ª Clara Bastos", specialty = "Aulas de Reforço (Matemática)", rating = 4.9f, category = "Aulas",
+                    description = "Ajudo alunos com dificuldades em matemática a alcançarem seu potencial máximo. Aulas individuais e em grupo.",
+                    profileImageResId = R.drawable.ic_lessons_book, backgroundImageResId = R.drawable.ic_placeholder,
+                    services = listOf(
+                        ProviderService("Aula Particular (1h)", "R$ 80,00", "1h", R.drawable.ic_lessons_book),
+                        ProviderService("Pacote Mensal (4 aulas)", "R$ 280,00", "4h/mês", R.drawable.ic_lessons_book)
+                    )
+                ),
+                // Beleza
+                Provider(
+                    id = "24", name = "Estúdio Glamour", specialty = "Maquiagem e Penteados", rating = 5.0f, category = "Beleza",
+                    description = "Produções completas para casamentos, formaturas e eventos especiais. Realce sua beleza natural.",
+                    profileImageResId = R.drawable.ic_beauty_woman, backgroundImageResId = R.drawable.ic_placeholder,
+                    services = listOf(
+                        ProviderService("Maquiagem Social", "R$ 150,00", "Aprox. 1.5h", R.drawable.ic_beauty_woman),
+                        ProviderService("Penteado para Festas", "R$ 120,00", "Aprox. 1h", R.drawable.ic_beauty_woman)
+                    )
+                ),
+                // Junior Assis - Eletricista
+                Provider(
+                    id = "25", name = "Junior Assis", specialty = "Manutenção Elétrica", rating = 4.7f, category = "Eletricista",
+                    description = "Manutenção elétrica corretiva e preventiva para garantir a segurança do seu lar.",
+                    profileImageResId = R.drawable.eletricista, backgroundImageResId = R.drawable.ic_placeholder,
+                    services = listOf(
+                        ProviderService("Revisão Elétrica Completa", "R$ 350,00", "Aprox. 2.5h", R.drawable.manutencao_corretiva),
+                        ProviderService("Troca de Fiação Antiga", "R$ 700,00", "Aprox. 6h", R.drawable.eletricista_instala__es)
                     )
                 )
             )

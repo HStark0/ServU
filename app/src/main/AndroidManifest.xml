@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,7 +14,8 @@
         android:theme="@style/Theme.ServU">
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +32,7 @@
         <activity android:name=".ChatListActivity" />
         <activity android:name=".ConversationActivity" />
         <activity android:name=".ProviderProfileActivity" />
-        <activity android:name=".ProviderListActivity" />
+        <activity android:name="com.app.servu.ProviderListActivity" />
         <activity android:name=".RatingActivity" />
         <activity android:name=".CreatePasswordActivity" />
         <activity android:name=".EditProfileActivity" />

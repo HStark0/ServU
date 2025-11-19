@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import java.io.File
 
 class ProfileFragment : Fragment() {
     override fun onCreateView(
@@ -28,24 +29,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val profileNameTextView = view.findViewById<TextView>(R.id.profile_name)
-        val profileImageView = view.findViewById<ImageView>(R.id.profile_image)
-
-        val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
-
-        val userId = lastUserEmail ?: GoogleSignIn.getLastSignedInAccount(requireActivity())?.id
-
-        if (userId != null) {
-            val firstName = sharedPref.getString("user_first_name_$userId", "Usuário")
-            val lastName = sharedPref.getString("user_last_name_$userId", "")
-            profileNameTextView.text = "$firstName $lastName".trim()
-
-            val imageUriString = sharedPref.getString("user_profile_image_uri_$userId", null)
-            if (imageUriString != null) {
-                profileImageView.setImageURI(Uri.parse(imageUriString))
-            }
-        }
+        updateProfileData(view)
 
         val profileHeader = view.findViewById<LinearLayout>(R.id.profile_header)
         profileHeader.setOnClickListener {
@@ -84,9 +68,9 @@ class ProfileFragment : Fragment() {
             val lastName = sharedPref.getString("user_last_name_$userId", "")
             profileNameTextView.text = "$firstName $lastName".trim()
 
-            val imageUriString = sharedPref.getString("user_profile_image_uri_$userId", null)
-            if (imageUriString != null) {
-                profileImageView.setImageURI(Uri.parse(imageUriString))
+            val imagePath = sharedPref.getString("user_profile_image_path_$userId", null)
+            if (imagePath != null) {
+                profileImageView.setImageURI(Uri.fromFile(File(imagePath)))
             } else {
                 profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
             }

@@ -70,10 +70,33 @@ class HistoryFragment : Fragment() {
 
     private fun loadHistoryServices() {
         val historyItems = getHistoryItems()
+
+        val exampleHistory1 = HistoryItem(
+            "João Ernesto - Freteiro",
+            "Frete de carga pequena",
+            3.5f,
+            "Serviço completo",
+            "Cartão de Crédito",
+            "2x",
+            "Minha Casa",
+            "R$ 150,00"
+        )
+        if (historyItems.none { it.providerName == exampleHistory1.providerName && it.serviceDescription == exampleHistory1.serviceDescription }) {
+            historyItems.add(0, exampleHistory1)
+        }
         
-        val exampleHistory = HistoryItem("João Ernesto - Freteiro", "Frete de carga pequena", 3.5f, "Serviço completo")
-        if (historyItems.none { it.providerName == exampleHistory.providerName && it.serviceDescription == exampleHistory.serviceDescription }) {
-             historyItems.add(0, exampleHistory)
+        val exampleHistory2 = HistoryItem(
+            "Maria Oliveira - Diarista",
+            "Limpeza Padrão (3h)",
+            4.9f,
+            "Serviço concluído",
+            "Pix",
+            "À vista",
+            "Escritório",
+            "R$ 150,00"
+        )
+        if (historyItems.none { it.providerName == exampleHistory2.providerName && it.serviceDescription == exampleHistory2.serviceDescription }) {
+            historyItems.add(0, exampleHistory2)
         }
 
         if (historyItems.isNotEmpty()) {
@@ -88,7 +111,7 @@ class HistoryFragment : Fragment() {
             noHistoryTextView.visibility = View.VISIBLE
         }
     }
-    
+
     private fun showScheduledServiceDetails(service: ScheduledService) {
         val builder = AlertDialog.Builder(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_scheduled_service_details, null)
@@ -182,7 +205,16 @@ class HistoryFragment : Fragment() {
 
         // Add to history list with 'concluded' status
         val historyItems = getHistoryItems()
-        val concludedItem = HistoryItem(service.providerName, service.serviceName, rating, "Serviço concluído")
+        val concludedItem = HistoryItem(
+            service.providerName, 
+            service.serviceName, 
+            rating, 
+            "Serviço concluído",
+            service.paymentMethod,
+            service.paymentCondition,
+            service.location,
+            service.serviceValue
+        )
         historyItems.add(0, concludedItem)
         saveHistoryItems(historyItems)
 
@@ -250,28 +282,19 @@ class HistoryFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = requireActivity().layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_service_details, null)
-
-        val serviceName = dialogView.findViewById<TextView>(R.id.detail_service_name)
-        val providerName = dialogView.findViewById<TextView>(R.id.detail_provider_name)
-        val status = dialogView.findViewById<TextView>(R.id.detail_status_value)
-        val value = dialogView.findViewById<TextView>(R.id.detail_value)
-        val closeButton = dialogView.findViewById<ImageButton>(R.id.close_button)
-
-        serviceName.text = item.serviceDescription
-        providerName.text = item.providerName
-        status.text = item.status
-
-        value.text = when (item.serviceDescription) {
-            "Instalações" -> "R$ 300,00"
-            "Manutenção" -> "R$ 500,00"
-            "Iluminação" -> "R$ 190,00"
-            else -> "N/A"
-        }
-
         builder.setView(dialogView)
+
         val dialog = builder.create()
 
-        closeButton.setOnClickListener { dialog.dismiss() }
+        dialogView.findViewById<TextView>(R.id.detail_service_name).text = item.serviceDescription
+        dialogView.findViewById<TextView>(R.id.detail_provider_name).text = item.providerName
+        dialogView.findViewById<TextView>(R.id.detail_status_value).text = item.status
+        dialogView.findViewById<TextView>(R.id.detail_payment_method).text = item.paymentMethod
+        dialogView.findViewById<TextView>(R.id.detail_payment_condition).text = item.paymentCondition
+        dialogView.findViewById<TextView>(R.id.detail_location).text = item.location
+        dialogView.findViewById<TextView>(R.id.detail_value).text = item.serviceValue
+        
+        dialogView.findViewById<ImageButton>(R.id.close_button).setOnClickListener { dialog.dismiss() }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
