@@ -45,14 +45,9 @@ class CreatePasswordActivity : AppCompatActivity() {
             val email = intent.getStringExtra("email")
             val password = passwordEditText.text.toString()
 
-            val sharedPref = getSharedPreferences("user_credentials", Context.MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                putString(email, password) // Use email as key
-                apply()
-            }
-
             val intent = Intent(this, PersonalDataActivity::class.java)
             intent.putExtra("email", email)
+            intent.putExtra("password", password)
             startActivity(intent)
         }
     }

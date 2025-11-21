@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,9 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.io.File
 
 class ProfileFragment : Fragment() {
+
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,6 +57,11 @@ class ProfileFragment : Fragment() {
         )
 
         profileOptionsRecyclerView.adapter = ProfileOptionAdapter(options)
+
+        val signOutButton = view.findViewById<Button>(R.id.sign_out_button)
+        signOutButton.setOnClickListener {
+            signOut()
+        }
     }
 
     override fun onResume() {
@@ -56,38 +69,54 @@ class ProfileFragment : Fragment() {
         view?.let { updateProfileData(it) }
     }
 
+    private fun getUserId(): String? {
+        return auth.currentUser?.uid
+    }
+
     private fun updateProfileData(view: View) {
         val profileNameTextView = view.findViewById<TextView>(R.id.profile_name)
         val profileImageView = view.findViewById<ImageView>(R.id.profile_image)
-        val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val lastUserEmail = sharedPref.getString("last_logged_in_user", null)
-        val userId = lastUserEmail ?: GoogleSignIn.getLastSignedInAccount(requireActivity())?.id
+        
+        val userId = getUserId()
+        if (userId == null) {
+            // If user is not logged in, redirect to MainActivity
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            return
+        }
 
-        if (userId != null) {
-            val firstName = sharedPref.getString("user_first_name_$userId", "Usuário")
-            val lastName = sharedPref.getString("user_last_name_$userId", "")
-            profileNameTextView.text = "$firstName $lastName".trim()
-
-            val imagePath = sharedPref.getString("user_profile_image_path_$userId", null)
-            if (imagePath != null) {
-                profileImageView.setImageURI(Uri.fromFile(File(imagePath)))
+        db.collection("users").document(userId).get().addOnSuccessListener { document ->
+            if (document != null && document.exists()) {
+                val user = document.toObject(User::class.java)
+                user?.let {
+                    profileNameTextView.text = "${it.firstName} ${it.lastName}".trim()
+                    if (it.profileImagePath != null) {
+                        profileImageView.setImageURI(Uri.fromFile(File(it.profileImagePath)))
+                    } else {
+                        profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
+                    }
+                }
             } else {
+                profileNameTextView.text = "Usuário"
                 profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
             }
         }
     }
 
     private fun signOut() {
-        // This part seems to be unreachable now, but we'll keep it for future use.
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-        val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        googleSignInClient.signOut().addOnCompleteListener(requireActivity()) { 
-            val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                remove("last_logged_in_user")
-                apply()
-            }
+        // Sign out from Firebase Auth
+        auth.signOut()
 
+        // Sign out from Google as well, if applicable
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        GoogleSignIn.getClient(requireActivity(), gso).signOut().addOnCompleteListener { 
+            // This part runs after Google sign-out is complete
+            // Clear any local preferences that might cause issues
+            val sharedPref = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            sharedPref.edit().clear().apply()
+
+            // Go to MainActivity
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

@@ -12,7 +12,20 @@
           "package_name": "com.app.servu"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "473786568579-to9kkbdspdbu6q931brigkmj2a5ela4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.servu",
+            "certificate_hash": "735bf5848f168ee11ddf2691da60e8934b878062"
+          }
+        },
+        {
+          "client_id": "473786568579-m3ec6fmdpfi07ft68kpr37k8r95sicc6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAsMaIud8JxX_0mDEk15gl0tMHqlkJpmp8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473786568579-m3ec6fmdpfi07ft68kpr37k8r95sicc6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

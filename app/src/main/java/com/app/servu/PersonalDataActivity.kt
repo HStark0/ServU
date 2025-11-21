@@ -5,11 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class PersonalDataActivity : AppCompatActivity() {
+
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_data)
@@ -40,22 +49,49 @@ class PersonalDataActivity : AppCompatActivity() {
 
         createAccountFinalButton.setOnClickListener {
             val email = intent.getStringExtra("email")
-            if (email != null) {
-                val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-                with(sharedPref.edit()) {
-                    putBoolean("profile_complete_$email", true)
-                    putString("user_first_name_$email", firstNameEditText.text.toString())
-                    putString("user_last_name_$email", lastNameEditText.text.toString())
-                    putString("user_cpf_$email", cpfEditText.text.toString())
-                    // Save the currently logged in user's email
-                    putString("last_logged_in_user", email)
-                    apply()
-                }
-            }
+            val password = intent.getStringExtra("password")
 
-            val intent = Intent(this, HomeActivity::class.java)
-            finishAffinity()
-            startActivity(intent)
+            if (email != null && password != null) {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            val firebaseUser = auth.currentUser
+                            val uid = firebaseUser!!.uid
+                            
+                            val firstName = firstNameEditText.text.toString()
+                            val lastName = lastNameEditText.text.toString()
+                            val cpf = cpfEditText.text.toString()
+
+                            val user = User(
+                                uid = uid,
+                                firstName = firstName,
+                                lastName = lastName,
+                                email = email,
+                                cpf = cpf
+                            )
+
+                            db.collection("users").document(uid).set(user)
+                                .addOnSuccessListener { 
+                                    val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                                    with(sharedPref.edit()) {
+                                        putString("last_logged_in_user", uid)
+                                        apply()
+                                    }
+                                    
+                                    val intent = Intent(this, HomeActivity::class.java)
+                                    finishAffinity()
+                                    startActivity(intent)
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w("PersonalDataActivity", "Error adding document", e)
+                                    Toast.makeText(baseContext, "Falha ao salvar dados: ${e.message}", Toast.LENGTH_LONG).show()
+                                }
+                        } else {
+                            Log.w("PersonalDataActivity", "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(baseContext, "Falha na autenticação: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }
+            }
         }
     }
 }
